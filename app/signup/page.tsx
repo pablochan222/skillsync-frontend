@@ -60,38 +60,38 @@ export default function Signup() {
         },
         {
           headers: { "Content-Type": "application/json" },
+          validateStatus: (status) => status < 500,
         }
       );
 
       console.log("Signup response:", response);
 
       // On successful signup, redirect to /verify so server can read cookie
-      router.replace("/verify");
-      router.refresh();
-      return;
-    } catch (error: any) {
-      console.error("Signup error:", error);
-
-      if (error.response) {
-        const { status, data } = error.response;
-        if (status === 400 && data.message && Array.isArray(data.message)) {
-          data.message.forEach((msg: string) => {
-            if (msg.toLowerCase().includes("email")) {
-              setError("email", { message: msg });
-            } else if (msg.toLowerCase().includes("phone")) {
-              setError("phone", { message: msg });
-            } else if (msg.toLowerCase().includes("password")) {
-              setError("password", { message: msg });
-            }
-          });
-        } else if (status === 409) {
-          setError("email", { message: data.message || "User already exists" });
-        } else {
-          alert(data.message || "An error occurred. Please try again.");
-        }
-      } else {
-        alert("Network or unexpected error occurred. Please try again.");
+      if (response.status >= 200 && response.status < 300) {
+        console.log("Signup response:", response);
+        router.replace("/verify");
+        router.refresh();
+        return;
       }
+
+      if (response.status === 400 && response.data.message && Array.isArray(response.data.message)) {
+        response.data.message.forEach((msg: string) => {
+          if (msg.toLowerCase().includes("email")) {
+            setError("email", { message: msg });
+          } else if (msg.toLowerCase().includes("phone")) {
+            setError("phone", { message: msg });
+          } else if (msg.toLowerCase().includes("password")) {
+            setError("password", { message: msg });
+          }
+        });
+      } else if (response.status === 409) {
+        setError("email", { message: response.data.message || "User already exists" });
+      } else {
+        alert(response.data.message || "An error occurred. Please try again.");
+      }
+
+    } catch (error: any) {
+          alert(error.status || "An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

@@ -15,7 +15,7 @@ export async function DELETE(
     }
 
     // Make the request to the backend
-    const response = await fetch(`http://localhost:4000/enrollments/unenroll/${courseId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enrollments/unenroll/${courseId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,

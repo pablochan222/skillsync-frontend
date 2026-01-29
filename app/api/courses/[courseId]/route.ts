@@ -8,7 +8,7 @@ export async function GET(
   try {
     const { courseId } = await params;
     
-    const response = await axios.get(`http://localhost:4000/courses/${courseId}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`, {
       timeout: 10000
     });
 

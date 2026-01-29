@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { courseId } = body;
     
-    await axios.post(`http://localhost:4000/enrollments/enroll/${courseId}`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/enrollments/enroll/${courseId}`, {}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

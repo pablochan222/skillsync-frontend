@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
   if (token && (pathname.startsWith("/login") || pathname.startsWith("/signup"))) {
     try{
-        const response = await fetch("http://localhost:4000/learner/test", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learner/test`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

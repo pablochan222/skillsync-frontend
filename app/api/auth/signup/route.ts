@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     
-    const response = await axios.post('http://localhost:4000/auth/signup', body, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, body, {
       headers: {
         'Content-Type': 'application/json',
       },

@@ -22,11 +22,14 @@ export default function Courses() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
+
   // Fetch courses from API
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/courses/');
+        const x =`${process.env.NEXT_PUBLIC_API_URL}/courses/`;
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses/`);
         if (!response.data) {
           throw new Error('Failed to get courses');
         }
@@ -91,7 +94,10 @@ export default function Courses() {
             <h3>Error loading courses</h3>
             <p>{error}</p>
             <button 
-              onClick={() => window.location.reload()} 
+              onClick={() => {
+                window.location.reload()
+                console.log('try again');
+              }} 
               className="btn btn-primary"
               style={{ marginTop: '1rem' }}
             >

@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const response = await axios.post(
-      "http://localhost:4000/learner/verify",
+      `${process.env.NEXT_PUBLIC_API_URL}/learner/verify`,
       body,
       {
         headers: { "Content-Type": "application/json" },

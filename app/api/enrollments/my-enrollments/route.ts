@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    const response = await axios.get('http://localhost:4000/enrollments/my-enrollments', {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/enrollments/my-enrollments`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

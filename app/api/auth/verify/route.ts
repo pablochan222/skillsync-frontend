@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify token with backend
-    const response = await fetch("http://localhost:4000/learner/test", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learner/test`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

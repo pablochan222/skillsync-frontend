@@ -9,18 +9,23 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      timeout : 10000
+      timeout : 10000,
+      validateStatus : (status)=> status < 500
     });
 
-    const res = NextResponse.json(response.data, { status: response.status });
-    res.cookies.set('email', body.email, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 5 * 60,
-      path: '/',
-    });
-    return res;
+    if(response.status >= 200 && response.status<300){
+      const res = NextResponse.json(response.data, { status: response.status });
+      res.cookies.set('email', body.email, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 5 * 60,
+        path: '/',
+      });
+      return res;
+    }
+
+    return NextResponse.json(response.data, {status : response.status})
   } catch (error: any) {
     console.error('Proxy error:', error);
     
